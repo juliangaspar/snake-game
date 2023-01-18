@@ -5,6 +5,8 @@ let direction = {
   right: 4
 }
 
+let FPS = 1000 / 10;
+
 let snakeCanvas = document.getElementById('snakeCanvas');
 let snakeCtx = snakeCanvas.getContext('2d');
 
@@ -82,8 +84,13 @@ document.addEventListener("keydown", function (event) {
   }
 
   actualDirection = newDirection;
+});
+
+function gameCicle() {
   moveSnake(actualDirection, snake);
   snakeCtx.clearRect(0, 0, 600, 600);
   drawGrid(snakeCtx);
   drawSnake(snakeCtx, snake);
-});
+}
+
+setInterval(gameCicle, FPS);
