@@ -9,21 +9,25 @@ const DIRECTION = {
 const FPS = 1000 / 10;
 const CANVAS = document.getElementById('snakeCanvas');
 const CTX = CANVAS.getContext('2d');
+const SCORE = document.getElementById('score');
 
 /* Game state */
 
 let cicle;
-let snake = [
-  { posX: 60, posY: 20 },
-  { posX: 40, posY: 20 },
-  { posX: 20, posY: 20 }
-];
-let actualDirection = DIRECTION.right;
-let newDirection = DIRECTION.right;
-
-let food = generateFood(snake)
+let snake;
+let actualDirection;
+let newDirection;
+let food;
+let score;
 
 /* Draw schema */
+
+function drawMap(CTX) {
+  CTX.beginPath();
+  CTX.lineWidth = "2";
+  CTX.rect(20, 20, 560, 560);
+  CTX.stroke();
+}
 
 function fillSquare(CTX, posX, posY) {
   CTX.beginPath();
@@ -40,13 +44,6 @@ function drawSnake(CTX, snake) {
 
 function drawFood(CTX, food) {
   fillSquare(CTX, food.posX, food.posY);
-}
-
-function drawMap(CTX) {
-  CTX.beginPath();
-  CTX.lineWidth = "2";
-  CTX.rect(20, 20, 560, 560);
-  CTX.stroke();
 }
 
 // Uncoment this function to play with grid
@@ -112,6 +109,17 @@ function generateFood(snake) {
   }
 }
 
+/* Scoring */
+
+function showScore() {
+  SCORE.innerHTML = `Score: ${score}`;
+}
+
+function increaseScore() {
+  score++;
+  showScore(score);
+}
+
 /* Game over */
 
 function wallCollision(snake) {
@@ -148,6 +156,7 @@ function gameCicle() {
   if (snake[0].posX === food.posX && snake[0].posY === food.posY) {
     snake.push({ posX: snake[snake.length - 1].posX, posY: snake[snake.length - 1].posY });
     food = generateFood(snake);
+    increaseScore();
   }
 
   if (wallCollision(snake)) {
@@ -162,10 +171,25 @@ function gameCicle() {
   drawFood(CTX, food);
 }
 
+/* Start game */
+
+function startGame() {
+  score = 0;
+  showScore(score);
+  snake = [
+    { posX: 60, posY: 20 },
+    { posX: 40, posY: 20 },
+    { posX: 20, posY: 20 }
+  ];
+  actualDirection = DIRECTION.right;
+  newDirection = DIRECTION.right;
+  food = generateFood(snake);
+  showScore(score);
+  cicle = setInterval(gameCicle, FPS);
+}
+
 drawMap(CTX);
-drawSnake(CTX, snake);
-drawFood(CTX, food);
 
 CANVAS.addEventListener("click", function () {
-  if (cicle === undefined) { cicle = setInterval(gameCicle, FPS); }
+  if (cicle === undefined) { startGame(); }
 });
