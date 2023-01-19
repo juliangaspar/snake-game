@@ -1,14 +1,24 @@
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width user-scalable=0"/>
     <title>Snake Game</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
-      <h1>Snake Game</h1>
-      <div id="score">Score: 0</div>
-      <canvas id="snakeCanvas" width="600" height="600"></canvas>
-      <script src="snake.js"></script>
+    <div id="title">Snake Game</div>
+    <div id="container">
+      <div id="nintendo">
+        <div id="score">Score: 0</div>
+        <div id="overlay">
+          <img id="nintendo-img" src="nintendo.png" alt="nintendo">
+          <canvas id="snakeCanvas" width="600" height="600"></canvas>
+        </div>
+      </div>
     </div>
+    <script src="snake.js"></script>
   </body>
 </html>

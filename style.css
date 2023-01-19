@@ -1,5 +1,126 @@
+body {
+  background-color: #f0f0f0;
+  overflow: hidden;
+  font-family: 'Press Start 2P', cursive;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 26px;
+}
+
+#title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px auto;
+  padding: 0;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#nintendo {
+  width: 94%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#overlay {
+  position: relative;
+}
+
+#nintendo-img {
+  width: 100%;
+  height: auto;
+}
+
+#score {
+  font-size: 16px;
+  margin: 4px;
+  padding: 0;
+}
+
 #snakeCanvas {
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
+  position: absolute;
+  left: 16.9%;
+  top: 5.19%;
+  width: 73.8%;
+  background-color: #424242;
+}
+
+@media screen and (min-width: 768px) {
+  #nintendo {
+    width: 50%;
+  }
+
+  body {
+    font-size: 32px;
+  }
+}
+
+.shake-horizontal {
+	-webkit-animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+	        animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+
+ @-webkit-keyframes shake-horizontal {
+  0%,
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60% {
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px);
+  }
+  80% {
+    -webkit-transform: translateX(8px);
+            transform: translateX(8px);
+  }
+  90% {
+    -webkit-transform: translateX(-8px);
+            transform: translateX(-8px);
+  }
+}
+@keyframes shake-horizontal {
+  0%,
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60% {
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px);
+  }
+  80% {
+    -webkit-transform: translateX(8px);
+            transform: translateX(8px);
+  }
+  90% {
+    -webkit-transform: translateX(-8px);
+            transform: translateX(-8px);
+  }
 }
