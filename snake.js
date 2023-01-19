@@ -9,7 +9,10 @@ const DIRECTION = {
 const FPS = 1000 / 10;
 const CANVAS = document.getElementById('snakeCanvas');
 const CTX = CANVAS.getContext('2d');
-const SCORE = document.getElementById('score');
+const SCOREBOARD = document.getElementById('score');
+const SOUND = new Audio('scored.wav');
+const NINTENDO = document.getElementById('nintendo');
+const SHAKE = 'shake-horizontal';
 
 /* Game state */
 
@@ -29,9 +32,16 @@ function drawMap(CTX) {
   CTX.stroke();
 }
 
+function provideInstructions(CTX, text, x, y) {
+  CTX.font = "30px Arial";
+  CTX.textAlign = "center";
+  CTX.fillStyle = "black";
+  CTX.fillText(text, x, y);
+}
+
 function fillSquare(CTX, posX, posY) {
   CTX.beginPath();
-  CTX.fillStyle = "black";
+  CTX.fillStyle = "#E81E63";
   CTX.fillRect(posX, posY, 20, 20);
   CTX.stroke();
 }
@@ -45,26 +55,6 @@ function drawSnake(CTX, snake) {
 function drawFood(CTX, food) {
   fillSquare(CTX, food.posX, food.posY);
 }
-
-// Uncoment this function to play with grid
-
-// function drawGrid(CTX) {
-//   for (let x = 20; x < 600; x += 20) {
-//     CTX.beginPath();
-//     CTX.fillStyle = "black";
-//     CTX.moveTo(x, 0);
-//     CTX.lineTo(x, 600);
-//     CTX.stroke();
-//   }
-
-//   for (let y = 20; y < 600; y += 20) {
-//     CTX.beginPath();
-//     CTX.fillStyle = "black";
-//     CTX.moveTo(0, y);
-//     CTX.lineTo(600, y);
-//     CTX.stroke();
-//   }
-// }
 
 /* Move snake */
 
@@ -112,27 +102,13 @@ function generateFood(snake) {
 /* Scoring */
 
 function showScore() {
-  SCORE.innerHTML = `Score: ${score}`;
+  SCOREBOARD.innerHTML = `Score: ${score}`;
 }
 
 function increaseScore() {
   score++;
   showScore(score);
-}
-
-/* Game over */
-
-function wallCollision(snake) {
-  let head = snake[0];
-
-  if ( head.posX < 20 || head.posX >= 580 || head.posY < 20 ||head.posY >= 580) { return true;}
-  if (snake.length === 1) { return false; }
-  for (let i = 1; i < snake.length; i++) {
-    if (snake[i].posX === head.posX && snake[i].posY === head.posY) {
-      return true;
-    }
-  }
-  return false;
+  SOUND.play();
 }
 
 /* Game cicle */
@@ -160,8 +136,7 @@ function gameCicle() {
   }
 
   if (wallCollision(snake)) {
-    clearInterval(cicle);
-    cicle = undefined;
+    gameOver();
     return;
   }
 
@@ -169,6 +144,31 @@ function gameCicle() {
   drawMap(CTX);
   drawSnake(CTX, snake);
   drawFood(CTX, food);
+}
+
+/* Game over */
+
+function wallCollision(snake) {
+  let head = snake[0];
+
+  if ( head.posX < 20 || head.posX >= 580 || head.posY < 20 ||head.posY >= 580) { return true;}
+  if (snake.length === 1) { return false; }
+  for (let i = 1; i < snake.length; i++) {
+    if (snake[i].posX === head.posX && snake[i].posY === head.posY) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function gameOver() {
+  clearInterval(cicle);
+  cicle = undefined;
+  CTX.clearRect(0, 0, 600, 600);
+  drawMap(CTX);
+  provideInstructions(CTX, "Game over", 300, 260);
+  provideInstructions(CTX, "Click to restart", 300, 310);
+  NINTENDO.classList.add(SHAKE)
 }
 
 /* Start game */
@@ -183,13 +183,26 @@ function startGame() {
   ];
   actualDirection = DIRECTION.right;
   newDirection = DIRECTION.right;
-  food = generateFood(snake);
+  NINTENDO.classList.remove(SHAKE)
   showScore(score);
+  food = generateFood(snake);
   cicle = setInterval(gameCicle, FPS);
 }
 
 drawMap(CTX);
+provideInstructions(CTX, "Click to start", 300, 260);
+provideInstructions(CTX, "Use arrows to move", 300, 310);
 
 CANVAS.addEventListener("click", function () {
-  if (cicle === undefined) { startGame(); }
+  if (cicle === undefined) { startGame(); return }
+
+  if (actualDirection === DIRECTION.down) {
+    newDirection = DIRECTION.left;
+  } else if (actualDirection === DIRECTION.left) {
+    newDirection = DIRECTION.up;
+  } else if (actualDirection === DIRECTION.up) {
+    newDirection = DIRECTION.right;
+  } else if (actualDirection === DIRECTION.right) {
+    newDirection = DIRECTION.down;
+  }
 });
