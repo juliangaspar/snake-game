@@ -41,7 +41,7 @@ function provideInstructions(CTX, text, x, y) {
 
 function fillSquare(CTX, posX, posY) {
   CTX.beginPath();
-  CTX.fillStyle = "#E81E63";
+  CTX.fillStyle = "#E91E64";
   CTX.fillRect(posX, posY, 20, 20);
   CTX.stroke();
 }

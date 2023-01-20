@@ -1,8 +1,8 @@
 body {
-  background-color: #f0f0f0;
+  background-color: #202124;
   overflow: hidden;
   font-family: 'Press Start 2P', cursive;
-  color: #333;
+  color: #424242;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -40,7 +40,7 @@ body {
 }
 
 #score {
-  font-size: 16px;
+  font-size: 18px;
   margin: 4px;
   padding: 0;
 }
